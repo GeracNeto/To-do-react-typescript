@@ -2,7 +2,7 @@
 import styles from "./TaskForm.module.css"
 
 // React
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 
 // Interface
 import { taskProps } from "../interface/Task";
@@ -10,10 +10,11 @@ import { taskProps } from "../interface/Task";
 type Props = {
   btnText: string;
   taskList: taskProps[];
-  setTaskList?: React.Dispatch<React.SetStateAction<taskProps[]>>
+  setTaskList?: React.Dispatch<React.SetStateAction<taskProps[]>>;
+  task?: taskProps | null;
 }
 
-const TaskForm = ({ btnText, taskList, setTaskList }: Props) => {
+const TaskForm = ({ btnText, taskList, setTaskList, task }: Props) => {
 
   const [id, setId] = useState<number>(0)
   const [title, setTitle] = useState<string>("")
@@ -31,7 +32,6 @@ const TaskForm = ({ btnText, taskList, setTaskList }: Props) => {
     setDifficulty(0)
 
     console.log(taskList)
-
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,12 +39,20 @@ const TaskForm = ({ btnText, taskList, setTaskList }: Props) => {
       case 'title':
         setTitle(e.target.value)
         break;
-      
+
       default:
         setDifficulty(parseInt(e.target.value))
         break;
     }
   }
+
+  useEffect(() => {
+    if (task) {
+      setId(task.id)
+      setTitle(task.title)
+      setDifficulty(task.difficulty)
+    }
+  }, [task])
 
   return (
     <form onSubmit={addTaskhandler} className={styles.form}>
