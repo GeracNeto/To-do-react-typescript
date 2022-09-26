@@ -29,6 +29,7 @@
     font-size: 1.2em;
     cursor: pointer;
     background-color: #282c34;
+    border-radius: 10px;
     color: #fff;
     padding: 0.4em;
     transition: 0.5s;
